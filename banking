@@ -1,0 +1,185 @@
+package in.co;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+
+
+public class Bank2 {
+
+	    static class  account {
+	    	 
+	    	private String name;
+	    	private String type;
+	    	private int AccountNo;
+	    	private double balance;
+	    	
+	    	
+			public account(String name, String type, double balance, int newAccNo) {
+				super();
+				this.name = name;
+				this.type = type;
+				this.balance = balance;
+				this.AccountNo = newAccNo;
+			}
+			 
+			  
+
+			public String getName() {
+				return name;
+			}
+
+
+
+			public void setName(String name) {
+				this.name = name;
+			}
+
+
+
+			public String getType() {
+				return type;
+			}
+
+
+
+			public void setType(String type) {
+				this.type = type;
+			}
+
+
+
+			public int getAccountNo() {
+				return AccountNo;
+			}
+
+
+
+			public void setAccountNo(int accountNo) {
+				AccountNo = accountNo;
+			}
+
+
+
+			public double getBalance() {
+				return balance;
+			}
+
+
+
+			public void setBalance(double balance) {
+				this.balance = balance;
+			}
+
+
+
+			public void withDrawl (double amount) {
+				 amount = -balance;
+			}
+	    	
+			public void deposite (double amount ) {
+				  amount = +balance;
+			}
+			}//static close
+	    	
+			// methods
+		   private   Map <Integer ,account> accounts = new HashMap<>();
+		   private int newAccNo = 1001;
+		   
+		   public account createAccoutn(String name,String type,double initialBalance) {
+			   
+			    account acc = new account (name,type,initialBalance,newAccNo++);
+			    accounts.put(acc.getAccountNo(), acc);
+
+			    System.out.println("account Creted...with "+acc.getAccountNo());
+			    return acc;
+			    
+			   
+		   }
+		   public void withdrawl(int acno, double amount) {
+			   account acc =  accounts.get(acno);
+			   if (acc != null) {
+				      if(acc.getBalance()> amount) {
+				    	  acc.withDrawl(amount);
+				    	  System.out.println("amount "+amount +"is withdrwal on"+acc.AccountNo);
+				      }else {
+				    	  System.out.println("Account not found....");
+				      }
+			   }
+		   }
+		   
+		   public void deposite(int acno, double amount) {
+			   account acc = accounts.get(acno);
+			   if (acc != null) {
+				   acc.deposite(amount);
+				   System.out.println(amount+"amount succesfully added in"+acc.getAccountNo());
+			   }else {
+				   System.out.println("account not found....");
+			   }
+		   }
+	    	
+		   public void showbalance(int acno) {
+			    account acc = accounts.get(acno);
+			   if (acc != null) {
+				     System.out.println(acc.getAccountNo()+"--"+acc.getType()+"--"+acc.getName()+"--"+acc.getBalance());
+			   }else {
+				   System.out.println("Not found here...");
+			   }
+		   }
+	    
+	    
+	    public static void main(String[] args) {
+			Bank2  b2  =new Bank2();
+			Scanner s = new Scanner (System.in);
+			
+			   int choice = 0;
+
+			do {
+			   
+				  System.out.println("===STATE BANK RAMESH=====");
+				  System.out.println("1.CREATE ACCOUNT ");
+				  System.out.println("2.SHOW BALANCE");
+				  System.out.println("3.CREDIT  AMOUNT "); 
+				  System.out.println("4.Debit AMOUNT");
+				  System.out.println("5.EXIT");
+				  int s1  = s.nextInt();
+				  switch(s1) {
+				  case 1  :System.out.println("Enter Name");
+				            String name = s.next();
+				           System.out.println("Enter account Type(Savings/current");
+				           String type  = s.next();
+				           System.out.println("Enter initial balance");
+				           double balance = s.nextDouble();
+				           account acc = b2.createAccoutn(name, type, balance);
+				           System.out.println("Accunt ctreated with "+acc.getAccountNo());
+				           break;
+				  case 2:System.out.println("Enter the Account numebr..");
+				          int s3 = s.nextInt();
+				          b2.showbalance(s3);
+				          break;
+				  case 3:System.out.println("Enter the accoun number...");
+				         int s4  =s.nextInt();
+				         System.out.println("Enter the amount ");
+				         double s5 = s.nextDouble();
+				         b2.deposite(s4, s5);
+				         break;
+				  case 4:System.out.println("Enter the accoun number...");
+			         int s6  =s.nextInt();
+			         System.out.println("Enter the amount ");
+			         double s7 = s.nextDouble();
+			         b2.withdrawl(s6, s7);
+			         break;
+				  case 5:System.out.println("System Exited succesfully....");
+				      s.close();
+				      default:System.out.println("Invalid choice....");
+				  }
+				  
+				  
+			}while(choice != 5);
+			s.close();
+			
+		}
+	    
+	    
+}
